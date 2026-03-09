@@ -1,26 +1,35 @@
-import java.util.Stack;
-public class PalindromeCheckerApp {
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
+
+public class UseCase7PalindromeCheckerApp {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a String: ");
+        String input = scanner.nextLine();
 
-        String input = "noon";
-
-        Stack<Character> stack = new Stack<>();
+        Deque<Character> deque = new ArrayDeque<>();
 
         for (char c : input.toCharArray()) {
-            stack.push(c);
+            deque.addLast(c);
         }
 
         boolean isPalindrome = true;
 
-        for (char c : input.toCharArray()) {
-            if (c != stack.pop()) {
+        while (deque.size() > 1) {
+            if (!deque.removeFirst().equals(deque.removeLast())) {
                 isPalindrome = false;
                 break;
             }
         }
 
-        System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        if (isPalindrome) {
+            System.out.println("Palindrome");
+        } else {
+            System.out.println("Not a palindrome");
+        }
+
+        scanner.close();
     }
 }
