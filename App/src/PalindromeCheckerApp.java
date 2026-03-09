@@ -1,34 +1,39 @@
 import java.util.Scanner;
+import java.util.Stack;
 
-public class UseCase11PalindromeCheckerApp {
+public class UseCase12PalindromeCheckerApp {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Input : ");
         String input = scanner.nextLine();
 
-        PalindromeService service = new PalindromeService();
-        boolean result = service.checkPalindrome(input);
+        PalindromeStrategy strategy = new StackStrategy();
+        boolean result = strategy.isPalindrome(input);
 
-        System.out.println("Is Palindrome? : " + result);
+        System.out.println("Is Palindrome?: " + result);
         scanner.close();
     }
 }
 
-class PalindromeService {
+interface PalindromeStrategy {
+    boolean isPalindrome(String input);
+}
 
-    public boolean checkPalindrome(String input) {
+class StackStrategy implements PalindromeStrategy {
+
+    public boolean isPalindrome(String input) {
         String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        Stack<Character> stack = new Stack<>();
 
-        int start = 0;
-        int end = normalized.length() - 1;
+        for (int i = 0; i < normalized.length(); i++) {
+            stack.push(normalized.charAt(i));
+        }
 
-        while (start < end) {
-            if (normalized.charAt(start) != normalized.charAt(end)) {
+        for (int i = 0; i < normalized.length(); i++) {
+            if (normalized.charAt(i) != stack.pop()) {
                 return false;
             }
-            start++;
-            end--;
         }
 
         return true;
